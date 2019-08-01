@@ -1,0 +1,13 @@
+{
+  "name": "put-the-func-back-in-your-tests",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Jared Schaab <jared.schaab@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "mdx-deck deck.mdx"
+  },
+  "devDependencies": {
+    "mdx-deck": "^3.0.8"
+  }
+}

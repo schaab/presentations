@@ -1,0 +1,42 @@
+# Outline
+
+- Intro
+  - Jared Schaab
+  - Principal Engineer of Experiences
+  - QA Guild - Guild Master
+- Testing is hard and Functional programming is scary
+- What this talk is NOT
+  - I am not a functional programming zealot
+  - This is a tool for your toolbox
+- Why is testing hard?
+  - "Thing" under test has several concerns
+  - Have several code paths to test
+  - Side effects
+  - Dependent on state shape
+  - These things problems because they add complexity to the test suite
+- Code example
+- Functional Programming is scary
+  - MATH!!!
+  - Jargon
+  - Did I mention math?
+- What is Functional programming
+  - It is a programming paradigm
+  - Applications are composed using pure functions
+  - avoiding shared mutable state and side effects
+- What do these things get us?
+- Review some terminology w/ code examples
+  - compose
+  - pure function
+  - shared mutable state
+  - side effects
+- 3 Guidelines to make your code more functional
+  - Describe "what" not "how"
+  - Code example showing a refactor incremental improvement
+  - Functions don't lie
+    - composable
+    - referential transparency
+  - Code example showing a refactor incremental improvment
+  - Focus on one thing
+  - Code example showing a refactor incremental improvement
+  - Final refactor
+  - Review benefits

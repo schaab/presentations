@@ -25,6 +25,7 @@
   - avoiding shared mutable state and side effects
 - What do these things get us?
 - Review some terminology w/ code examples
+  - Impreative vs Declarative
   - compose
   - pure function
   - shared mutable state

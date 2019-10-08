@@ -1,15 +1,274 @@
-# This is the title of my deck
+import { 
+  Notes, 
+  Image, 
+  Appear
+} from "mdx-deck";
+import ImageOverlay from "./components/ImageOverlay";
+import jaredTheme from "./theme";
+
+export const theme = jaredTheme;
+
+# Put the func back in your testing
+
+by Jared Schaab
 
 ---
 
-# About Me
+  # Hi, I am Jared. 👋
+
+  ![Jared](https://avatars0.githubusercontent.com/u/1103255?v=4)
+
+  - Live
+  - love
+  - Laugh
 
 ---
 
-```jsx
-<CodeSnippet />
+# Testing is hard...
+
+<Notes>
+  Example from books are so simple
+</Notes>
+
+---
+
+# and Functional Programming is Scary
+
+---
+
+<Image
+  src="https://media.giphy.com/media/MlNA4iZ73EaTS/giphy.gif"
+  alt="drink the kool-aid"
+/>
+
+---
+
+# What this talk is not
+
+<Notes>
+  - To convince you that FP is the panacea for all our
+  coding problems 
+  - Something something darkside
+</Notes>
+
+---
+
+# What this talk is
+
+<Notes>
+  - To give you another tool in your tool belt 
+  - When you have a hammer, not everying is a nail
+</Notes>
+
+---
+
+# Why is Testing hard?
+
+<Notes>
+  - "Thing" under test has several concerns 
+  - There are several code paths to test 
+  - Side effects (i.e. needing to mock)
+  - Dependent on state shape 
+  - These cause problems because they add complexity to the code
+</Notes>
+
+---
+
+
+  ```js file="./snippets/love-dogs.js"
+
+  ```
+
+
+
+---
+
+<ImageOverlay text="Why is functional programming scary?" />
+<Image
+  src="https://media.giphy.com/media/d3mmqKgZBAmnaeVq/giphy.gif"
+  alt="mad scientist"
+/>
+
+<Notes>
+  - Math 
+  - Jargon 
+  - Umm math
+</Notes>
+
+---
+
+# What is Functional Programming?
+
+<Notes>
+  - Programming paradigm 
+  - Applications are composed using pure functions 
+  - Avoid shared mutable state and side effects
+</Notes>
+
+---
+
+<ImageOverlay text="Yeah, so?" />
+<Image
+  src="https://media.giphy.com/media/xT77XTpyEzJ4OJO06c/giphy.gif"
+  alt="yeah, so"
+/>
+
+<Notes>
+  - Code is simpler 
+  - Easier to read 
+  - Easier to debug/maintain 
+  - Code becomes more predictable 
+  - Allows us our tests to be determinstic
+</Notes>
+
+---
+
+# Let's learn some concepts
+
+<Appear>
+  <span>Composition</span>
+  <span>Shared Mutable State</span>
+  <span>Side Effects</span>
+  <span>Pure Function</span>
+</Appear>
+
+---
+
+# Composition
+
+Take the output of one function and pass it to the next
+
+---
+
+```javascript
+const result = bar("value");
+const otherResult = foo(result);
+
+// OR
+
+const result = foo(bar("value"));
+
+// OR
+
+const result = pipe(
+  foo,
+  bar
+)("value");
 ```
 
 ---
 
-# The end
+# Shared Mutable State
+
+Any variable in the "global" scope that can be modified
+
+```javascript
+
+```
+
+---
+
+# Side Effects 
+
+Any application state change that is observable outside the called function other than its return value
+
+<Notes>
+  - These make our tests non-determinstic and harder to test
+  - This reduces confidence in our tests which reduces the
+  confidence that the application actully works
+</Notes>
+
+---
+
+# Pure Function
+
+Given the same input, will return the same output avoiding side-effcts and does not modify any global state
+
+---
+
+# x Guildlines to make your code more functional
+
+---
+
+# 1. Stop Micro-Managing
+
+<Notes>
+  - Imperative vs Declaritive - Eases the cognitive load -
+  Can form a mental model
+</Notes>
+
+---
+
+# Imperative 
+
+```javascript
+// Calculate subtotal
+for (let i = 0; i < lineItems.length; i++) {
+  opts.subTotal =
+    opts.subTotal +
+    lineItems[i].price * lineItems[i].quantity;
+}
+```
+
+<Notes>
+  - Communitcating the exact steps on what calculating the sub total should look like 
+  - A lot of information to keep track of 
+  - index, sub-properties
+</Notes>
+
+--
+
+# Declarative
+
+```javascript
+opts.subtotal = lineItems.reduce(
+  (acc, { price, quantity }) => acc + price * quantity,
+  0
+);
+```
+
+<Notes>
+  - Abstracts the construct of iterating the array - Don't
+  care if the wizard of oz is behind the curtain just that
+  it happens
+</Notes>
+
+---
+
+# 2. No B.S.
+
+```javascript
+```
+
+<Notes>
+  - This is where pure functions come into play 
+  - Shared mutable state
+</Notes>
+
+---
+
+# Multi-tasking is a falacy
+
+<Notes>
+  - Our calculate total is concerning itself with 3
+  different things - This makes our test cases more verbose
+  and more likely for us to miss something
+</Notes>
+
+---
+
+# let's review
+
+---
+
+<Image
+  src="https://media.giphy.com/media/3o7btZ1Gm7ZL25pLMs/giphy.gif"
+  alt="questions"
+/>
+
+---
+
+<Image 
+  src="https://media.giphy.com/media/xULW8v7LtZrgcaGvC0/giphy.gif" 
+  alt="thank you" 
+/>

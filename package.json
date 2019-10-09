@@ -1,0 +1,19 @@
+{
+  "name": "presentations",
+  "version": "1.0.0",
+  "description": "A place for me to stick presentations and talk abstracts",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/schaab/presentations.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/schaab/presentations/issues"
+  },
+  "homepage": "https://github.com/schaab/presentations#readme"
+}

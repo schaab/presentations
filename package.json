@@ -4,7 +4,12 @@
   "description": "A place for me to stick presentations and talk abstracts",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "mdx-deck deck.mdx",
+    "build": "mdx-deck build deck.mdx",
+    "help": "mdx-deck"
+  },
+  "devDependencies": {
+    "mdx-deck": "^3.0.13"
   },
   "repository": {
     "type": "git",

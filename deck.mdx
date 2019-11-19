@@ -1,11 +1,11 @@
-import { 
+import {
+    Appear,
     Head,
-    Notes,
     Horizontal,
-    FullScreenCode,
-    Image
+    Image,
+    Notes,
 } from "mdx-deck";
-import { CodeSurfer } from "code-surfer"
+import { CodeSurfer, CodeSurferColumns, Step } from "code-surfer"
 import { dracula } from "@code-surfer/themes";
 import jaredTheme from "./theme";
 
@@ -16,45 +16,546 @@ export const themes = [dracula, jaredTheme];
 </Head>
 
 # Put the func back in your testing
-## How we can use functional programming principles to help make our tests easier to test
 
-by Jared Schaab
+<Notes>
 
----
+- I want to talk about functional programming and how it can help us make testing more enjoyable
+- Maybe I am weird but there is a rush or something about writing a suite of tests that makes you feel confident in the code you just wrote
+- So this talk is for those of you who may be struggling with your test suites and for those of you that aren't triggered by the words "functional programming"
 
-# What this talk is not
-
----
-
-# What this talk is
+</Notes>
 
 ---
 
-## Hi, I am Jared. 👋
+## Hi, I am <em>Jared</em>. 👋
 
 <Horizontal>
 
 ![Jared](https://avatars0.githubusercontent.com/u/1103255?v=4)
 
-- Princple Engineer at QuoteCenter
+- Principle Engineer at QuoteCenter
 - Lover of clean code
 - Writer of some bad code
+- Not a designer
 - Grateful
 
 </Horizontal>
 
 ---
 
-# Testing is hard...
-
----
-
-# Blogs and docs are 💩
+### For those of you <strong>triggered</strong> by the words <em>Functional programming</em>
 
 <Notes>
 
-- Examples are over simplified
-- Don't match real world
+Please rest assured that I am not here to convert you using mind control. I am not
+here to tell you to write your code only in this way. Zealotry around which tools we use hurt
+us developers. At the end of the day it is about tradeoffs what "negatives" are we willing to accept
+in light of the positives.
 
 </Notes>
 
+---
+
+## So, what is my <em>intent</em>?
+
+<Notes>
+
+- To give you a tool in your tool-belt, so when the time arises you can evaluate the trade-offs of choosing one tool over the other.
+
+</Notes>
+
+---
+
+# Testing is <em>hard</em>...
+
+---
+
+<CodeSurfer>
+
+```js title="DUR" file="./src/snippets/wtf-javascript.js"
+```
+
+</CodeSurfer>
+
+---
+
+<Image src="https://media.giphy.com/media/3oEjHKvjqt5pssL99C/giphy.gif" />
+
+---
+
+<CodeSurfer>
+
+```js title="NON-DETERMINISTIC"
+console.log('Here is a message');
+
+Math.random();
+
+const arbitraryDate = new Date();
+```
+
+</CodeSurfer>
+
+<Notes>
+
+So you may be saying to yourself, why is this a problem? And to be honest it's 
+not really that problematic. There are ways to mock these constructst out.
+The real problem is that it adds a layer of complexity on top of your test code
+that could be avoided. It makes it harder for the developer following in your footsteps
+to get to the meat of the test to find out what is important.
+
+</Notes>
+
+---
+
+<CodeSurfer>
+
+```js title="MODIFYING PARAMETERS"
+function makeThingFly(obj) {
+    obj.canFly = true;
+
+    return obj;
+};
+```
+
+</CodeSurfer>
+
+<Notes>
+
+This leads to code needing to be called in the correct order to produce the desired result
+
+Resulting in bugs as code is refactored
+
+</Notes>
+
+---
+
+<CodeSurfer>
+
+```js title="TOO MANY RESPONSIBILITIES"
+function putBirdOnIt(obj) {
+    if(obj.notPretty) {
+        obj.hasBirdOnIt = true;
+        obj.notPretty = false;
+    }
+
+    obj.bird.attack();
+
+    return obj;
+};
+
+```
+
+</CodeSurfer>
+
+<Notes>
+
+Again, not something that is bad or wrong. This could be a completely reasonable
+implementation. However, when it comes to testing there are not more test cases to consider.
+More setup required which again obfuscates the important part of the tests.
+
+</Notes>
+
+---
+
+## Learning the <em>"right"</em> way is hard
+
+<Notes>
+
+This is a blessing and a curse of a dynamic language like JavaScript. There
+are many ways to accomplish our daily tasks and everyone has their own opinion on how
+to accomplish it. This is one reason why we see click baity blog titles.
+
+In my experience there are two main sources to get a foundation so that you can start
+working with tools/frameworks/languages.
+
+1. Blogs/Docs
+2. Examining existing code
+
+</Notes>
+
+---
+
+<CodeSurferColumns>
+
+<Step subtitle="THE IDEAL CASE">
+
+```js
+// in add.js
+function add(n1, n2) {
+    return n1 + n2;
+}
+
+export default add;
+```
+
+```js
+import add from './add';
+
+describe('add', () => {
+    test('adding 1 and 2 should equal 3', () => {
+        expect(add(1,2)).toBe(3);
+    });
+});
+```
+</Step>
+
+</CodeSurferColumns>
+
+<Notes>
+
+- Stop me if you have "heard" this one before
+- Examples are over simplified
+- Don't match real world
+- Real world there is state and external dependencies
+
+</Notes>
+
+---
+
+#### Standing on the Shoulders of <em>giants</em>
+
+<Appear>
+
+## Or copying and pasting other tests
+
+</Appear>
+
+<Notes>
+
+- This solves for the real world part of the problem
+- But you are missing context around the choices the previous developer made
+- Why assert on X and not Y or not X and Y
+- Why is this data important in the setup?
+- This path still leaves some gaps
+
+</Notes>
+
+---
+
+# What is a <strong>dev</strong> to do?
+
+---
+
+<Image
+  src="https://media.giphy.com/media/dTKzPJDQ4zhZe/giphy.gif"
+  alt="drink the kool-aid"
+/>
+
+---
+
+# What is <em>Functional Programming</em>?
+
+<Notes>
+
+Who has tried to learn FP? Who stuck with it?
+
+Why? From my own attepmts at learning it, it is overwhelming. So much math and honestly WTF is a functor?
+
+My hope is that as we work through this you'll see that the concepts aren't so bad and you'll see that you are actually using
+the majority of them already.
+
+A programming paradigm using pure functions as the atomic unit of 
+composition, avoiding shared mutable state and side-effects. It is declarative rather than imperative.
+
+
+</Notes>
+
+---
+
+# <em>Why</em> should you care?
+
+- Concise
+- Predictable
+- Easier to test
+
+---
+
+<Image
+    src="https://media.giphy.com/media/g2kvuuCX1vDd6/giphy.gif"
+    alt="lets jump in"
+/>
+
+---
+
+# <strong>Pure</strong> Function
+
+<Notes>
+
+A pure function is one that, given the same input will produce the same output and does note modify any global state.
+
+</Notes>
+
+---
+
+<CodeSurferColumns>
+
+<Step>
+
+```js title="IMPURE" file="./src/snippets/impure.js"
+```
+
+```js title="PURE" file="./src/snippets/pure.js"
+```
+
+</Step>
+
+<Step>
+
+```js 3:6 title="IMPURE" file="./src/snippets/impure.js"
+```
+
+```js 3:5 title="PURE" file="./src/snippets/pure.js"
+```
+
+</Step>
+
+<Step>
+
+```js 15:17 title="IMPURE" file="./src/snippets/impure.js"
+```
+
+```js 13:17 title="PURE" file="./src/snippets/pure.js"
+```
+
+</Step>
+
+</CodeSurferColumns>
+
+---
+
+# Shared <strong>mutable</strong> state
+
+<Notes>
+
+Any variable or object, or property of that object, that exisits in a shared scope
+
+The problem with shared state is that you must understand its history when making changes. Meaning, if someone changes some code upstream
+it can affect code downstream in an non-obvious way.
+
+</Notes>
+
+---
+
+<CodeSurfer>
+
+```js title="jQuery"
+$(function() {
+
+    $('#special-button').css('background-color', 'red')
+    $('#not-so-special-button').on('click', function() {
+        $('button').css('background-color', 'grey')
+    })
+})
+```
+
+</CodeSurfer>
+
+<Notes>
+
+- DOM/CSS is one giant global object
+- Makes debugging hard
+- Makes testing hard
+- Thoughts on why React is so popular?
+
+</Notes>
+
+---
+
+# Side Effects
+
+<Notes>
+
+Side effects is essentially any code that is interacting with the outside world.
+
+How do you handle side effects in redux?
+
+</Notes>
+
+---
+
+# Composition
+
+<Notes>
+
+- Building a pipeline for data to flow through
+- You are probably doing this already
+
+</Notes>
+
+---
+
+<CodeSurfer>
+
+```js 1:2 file="./src/snippets/composition.js"
+```
+
+```js 4:31 file="./src/snippets/composition.js"
+```
+
+```js 33:65 file="./src/snippets/composition.js"
+```
+
+</CodeSurfer>
+
+---
+
+# Imperative vs <em>Declarative</em>
+
+<Notes>
+
+Writing the code in a way that makes the steps to get there very prescriptive vs here is my desired end state
+
+</Notes>
+
+---
+
+<CodeSurferColumns>
+
+<Step>
+
+```js title="IMPERATIVE"
+function add(arr) {
+    let sum = 0
+
+    for(const number of arr){
+        sum += number
+    }
+
+    return sum
+}
+```
+
+</Step>
+
+<Step>
+
+```js title="DECLARATIVE"
+function add(arr) {
+    return arr.reduce((acc, curr) => acc + curr, 0)
+}
+```
+
+</Step>
+
+</CodeSurferColumns>
+
+---
+
+<Image
+    src="https://media.giphy.com/media/6FThODuPfjDLa/giphy.gif"
+    alt="drinking from the fire hose"
+    size="1200px 1000px"
+/>
+
+---
+
+# <strong>Example</strong> time
+
+<Image
+    src="https://media.giphy.com/media/26FxCOdhlvEQXbeH6/giphy.gif"
+    alt="clapping"
+    size="1200px 1000px"
+/>
+
+---
+
+<CodeSurfer>
+
+```js 1:23 file="./src/snippets/example.js"
+```
+
+```js 25:57 file="./src/snippets/example.js"
+```
+
+</CodeSurfer>
+
+<Notes>
+
+- What happens when we want to get a list of flying Canadian superheros
+- Or just flying superheros
+- Our filtering logic is becoming more and more critical and harder to understand with no real tests around it
+- Let's see how we can leverage some of ideas we learned earlier to make this cleaner
+
+</Notes>
+
+---
+
+### Principle 1:
+## Don't <em>change</em> anything you don't own
+
+---
+
+<CodeSurfer>
+
+```js file="./src/snippets/example-mutation.js"
+```
+
+</CodeSurfer>
+
+---
+
+### Principle 2:
+## Describe <em>what</em> not how
+
+---
+
+<CodeSurfer>
+
+```js file="./src/snippets/example-declarative.js"
+```
+
+</CodeSurfer>
+
+---
+
+### Principle 3:
+## Do <strong>one</strong> thing and do it well
+
+---
+
+<CodeSurfer>
+
+```js 1:19 file="./src/snippets/example-one-thing.js"
+```
+
+```js 22:30 file="./src/snippets/example-one-thing.js"
+```
+
+```js 32:39 file="./src/snippets/example-one-thing.js"
+```
+
+</CodeSurfer>
+
+---
+
+## Let's review
+
+---
+
+## Functional programming is <strong>not scary</strong> because:
+
+<ol>
+    <Appear>
+        <li>I was already most likely using some of its core concepts</li>
+        <li>Helps me to write code that is easier to understand</li>
+        <li>...and debug</li>
+        <li>Tests become simpler and more robust</li>
+        <li>Increases my confidence in the code I have written</li>
+    </Appear>
+</ol>
+
+---
+
+## This happens when our code follows some principles:
+
+<ol>
+    <Appear>
+        <li>Don't change anything you don't own </li>
+        <li>Describe what not how</li>
+        <li>Do one thing and do it well</li>
+    </Appear>
+</ol>
+
+---
+
+# Questions?

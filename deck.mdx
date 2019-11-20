@@ -15,13 +15,14 @@ export const themes = [dracula, jaredTheme];
   <title>Put the func back in your testing</title>
 </Head>
 
-# Put the func back in your testing
+# Put the <strong>func</strong> back in your testing
 
 <Notes>
 
-- I want to talk about functional programming and how it can help us make testing more enjoyable
-- Maybe I am weird but there is a rush or something about writing a suite of tests that makes you feel confident in the code you just wrote
-- So this talk is for those of you who may be struggling with your test suites and for those of you that aren't triggered by the words "functional programming"
+- I want to talk about two things testing and FP
+- Why is testing so hard
+- Why is FP scary and how can we make it less so
+- Show you how we can leverage some principles to make our code easier to read, debug, and test.
 
 </Notes>
 
@@ -33,13 +34,26 @@ export const themes = [dracula, jaredTheme];
 
 ![Jared](https://avatars0.githubusercontent.com/u/1103255?v=4)
 
-- Principle Engineer at QuoteCenter
-- Lover of clean code
-- Writer of some bad code
-- Not a designer
-- Grateful
+<ul>
+    <Appear>
+        <li>Principle Engineer at QuoteCenter</li>
+        <li>Writer of some bad code</li>
+        <li>Lover of clean code</li>
+        <li>Not a designer</li>
+        <li>Grateful</li>
+    </Appear>
+</ul>
 
 </Horizontal>
+
+<Notes>
+
+- Started out as desktop developer (not electron)
+- Got my first taste of web development in 2007 with ASP.net webforms and jQuery
+- Which might have fueled my love for clean code, which I very rarely write but it is a nice goal and I find that FP helps me get a wee bit closer
+- As you'll see from my slides, despite my best efforts, I do not have a design eye
+
+</Notes>
 
 ---
 
@@ -47,10 +61,15 @@ export const themes = [dracula, jaredTheme];
 
 <Notes>
 
-Please rest assured that I am not here to convert you using mind control. I am not
-here to tell you to write your code only in this way. Zealotry around which tools we use hurt
-us developers. At the end of the day it is about tradeoffs what "negatives" are we willing to accept
-in light of the positives.
+- What I am not here to do
+    - get you to join the FP cult
+    - tell you to write your code in a certain way
+- One of the perks of JavaScript is that is so flexible
+    - can accomplish a task in many different ways
+    - Assuming we do so responsibly
+- That's why there is a book called JS: The Good Parts not JS: FP
+- Once you start deciding there is only one way to do things you are on a one way track
+    to support that legacy code that is 10 years old
 
 </Notes>
 
@@ -60,13 +79,24 @@ in light of the positives.
 
 <Notes>
 
-- To give you a tool in your tool-belt, so when the time arises you can evaluate the trade-offs of choosing one tool over the other.
+- Share with you some of the things I have learned while exploring FP
+- To give you a tool in your tool-belt
+- Evaluate the trade-offs of choosing one tool over the other
+- For those of you still triggered now would be the time to leave
+- State the obvious Testing is hard
 
 </Notes>
 
 ---
 
 # Testing is <em>hard</em>...
+
+<Notes>
+
+- Everyone tries really hard to write beautiful code that is easy to test
+- But despite our best efforts we end up with something like...
+
+</Notes>
 
 ---
 
@@ -77,9 +107,21 @@ in light of the positives.
 
 </CodeSurfer>
 
+<Notes>
+
+Don't bother reading because I have no clue what this actuatlly does
+
+</Notes>
+
 ---
 
 <Image src="https://media.giphy.com/media/3oEjHKvjqt5pssL99C/giphy.gif" />
+
+<Notes>
+
+- It is not just large pieces of code that make things difficult
+
+</Notes>
 
 ---
 
@@ -121,9 +163,8 @@ function makeThingFly(obj) {
 
 <Notes>
 
-This leads to code needing to be called in the correct order to produce the desired result
-
-Resulting in bugs as code is refactored
+- Code needs to called in correct order to produce desired result
+- Can Resulting in bugs as code is refactored
 
 </Notes>
 
@@ -149,9 +190,10 @@ function putBirdOnIt(obj) {
 
 <Notes>
 
-Again, not something that is bad or wrong. This could be a completely reasonable
-implementation. However, when it comes to testing there are not more test cases to consider.
-More setup required which again obfuscates the important part of the tests.
+- Again, not something that is bad or wrong. 
+- This could be a completely reasonable implementation. 
+- However, when it comes to testing there are more test cases to consider.
+- More setup required which again obfuscates the important part of the tests.
 
 </Notes>
 
@@ -161,15 +203,16 @@ More setup required which again obfuscates the important part of the tests.
 
 <Notes>
 
-This is a blessing and a curse of a dynamic language like JavaScript. There
-are many ways to accomplish our daily tasks and everyone has their own opinion on how
-to accomplish it. This is one reason why we see click baity blog titles.
+- As I mentioned there are many ways to accomplish things in JS
+- This is a blessing and a curse
+- Everyone has their own opinon on the "right" way
 
-In my experience there are two main sources to get a foundation so that you can start
-working with tools/frameworks/languages.
+- Two main sources
 
-1. Blogs/Docs
+1. blogs/docs
 2. Examining existing code
+
+- OK, so we have resources what is the problem?
 
 </Notes>
 
@@ -203,10 +246,9 @@ describe('add', () => {
 
 <Notes>
 
-- Stop me if you have "heard" this one before
+- Fairly standard testing example
 - Examples are over simplified
 - Don't match real world
-- Real world there is state and external dependencies
 
 </Notes>
 
@@ -234,6 +276,13 @@ describe('add', () => {
 
 # What is a <strong>dev</strong> to do?
 
+<Notes>
+
+- What if I told you there was a way to structure your code that matched the ideal case?
+- Its time
+
+</Notes>
+
 ---
 
 <Image
@@ -249,14 +298,16 @@ describe('add', () => {
 
 Who has tried to learn FP? Who stuck with it?
 
-Why? From my own attepmts at learning it, it is overwhelming. So much math and honestly WTF is a functor?
+Why? From my own attepmts at learning it, it is overwhelming.
+So much math and honestly WTF is a functor?
 
 My hope is that as we work through this you'll see that the concepts aren't so bad and you'll see that you are actually using
 the majority of them already.
 
 A programming paradigm using pure functions as the atomic unit of 
-composition, avoiding shared mutable state and side-effects. It is declarative rather than imperative.
+composition, avoiding shared mutable state and side-effects.
 
+It is declarative rather than imperative.
 
 </Notes>
 
@@ -264,9 +315,13 @@ composition, avoiding shared mutable state and side-effects. It is declarative r
 
 # <em>Why</em> should you care?
 
-- Concise
-- Predictable
-- Easier to test
+<ul>
+    <Appear>
+        <li>Code is more concise</li>
+        <li>Code is more predictable</li>
+        <li>Easier to test</li>
+    </Appear>
+</ul>
 
 ---
 
@@ -355,7 +410,7 @@ $(function() {
 - DOM/CSS is one giant global object
 - Makes debugging hard
 - Makes testing hard
-- Thoughts on why React is so popular?
+- React
 
 </Notes>
 
@@ -377,6 +432,7 @@ How do you handle side effects in redux?
 
 <Notes>
 
+- Composition taking the output of one function and passing it to another
 - Building a pipeline for data to flow through
 - You are probably doing this already
 
@@ -532,7 +588,7 @@ function add(arr) {
 
 ---
 
-## Functional programming is <strong>not scary</strong> because:
+### Functional programming is <strong>not scary</strong> because:
 
 <ol>
     <Appear>
